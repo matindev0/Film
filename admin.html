@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    
+    <form id="filmForm">
+        <label>Film Title:</label>
+        <input type="text" id="title" required><br>
+
+        <label>Embed Code:</label>
+        <textarea id="video_url" required rows="4" cols="50"></textarea><br>
+
+        <button type="submit">Add Film</button>
+    </form>
+
+    <script>
+        document.getElementById("filmForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const title = document.getElementById("title").value;
+            const video_url = document.getElementById("video_url").value;
+
+            try {
+                await fetch('http://localhost:5000/films', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, video_url })
+                });
+                alert("Film added successfully!");
+                e.target.reset();
+            } catch (error) {
+                console.error("Error adding film:", error);
+            }
+        });
+    </script>
+</body>
+</html>

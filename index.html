@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ku">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Film Website</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Films</h1>
+    <div class="video-container" id="filmList"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            const filmList = document.getElementById("filmList");
+
+            async function fetchFilms() {
+                try {
+                    const response = await fetch('http://localhost:5000/films');
+                    const films = await response.json();
+                    filmList.innerHTML = "";
+                    films.forEach(film => {
+                        const filmItem = document.createElement("div");
+                        filmItem.className = "video-item";
+                        filmItem.innerHTML = `
+                            <h3>${film.title}</h3>
+                            <div class="embed-video">${film.video_url}</div>
+                        `;
+                        filmList.appendChild(filmItem);
+                    });
+                } catch (error) {
+                    console.error("Error fetching films:", error);
+                }
+            }
+
+            fetchFilms();
+        });
+    </script>
+</body>
+</html>
